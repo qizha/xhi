@@ -21,8 +21,8 @@ else
 fi
 
 isFound="false"
-
-OUTPUT=`cat aps.txt | grep '^[0-9]'`
+iwpriv ra0 set SiteSurvey=0
+OUTPUT=`iwpriv ra0 get_site_survey | grep '^[0-9]'`
 while read line
 do
 ssid=`echo $line | awk '{print $2}'`

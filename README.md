@@ -22,3 +22,7 @@ The default location is "/opt/xhi". If you decide to use another location, pleas
 
     `/etc/init.d/xinetd restart`
 * Enjoy it
+
+Reference
+---
+[预览版固件中apcli的配置方法](http://cn.wrtnode.com/?topic=%E9%A2%84%E8%A7%88%E7%89%88%E5%9B%BA%E4%BB%B6%E4%B8%ADapcli%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95)
