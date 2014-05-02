@@ -1,0 +1,7 @@
+ra0       get_site_survey:
+Ch  SSID                             BSSID               Security               Siganl(%)W-Mode  ExtCH  NT WPS DPID
+1   360WiFi-CB2C                     00:87:36:3f:cb:2c   WPA1PSKWPA2PSK/AES     65       11b/g/n ABOVE  In  NO     
+1   ruanruan                         c8:3a:35:f8:05:c0   WPAPSK/AES             86       11b/g/n ABOVE  In  NO     
+6   3408DD                           58:6d:8f:2b:da:8d   WPA2PSK/AES            70       11b/g/n BELOW  In  NO     
+11  zswy                             e0:05:c5:1c:ef:a2   WEP                    15       11b/g   NONE   In  NO     
+

@@ -1,0 +1,22 @@
+
+config wifi-device 'ra0'
+	option type 'ralink'
+	option mode '9'
+	option channel 'U_CHANEL'
+	option txpower '100'
+	option ht '20+40'
+	option country 'US'
+
+config wifi-iface
+	option device 'ra0'
+	option network 'lan'
+	option mode 'ap'
+	option ssid 'WRTnode8C2A'
+	option encryption 'psk2'
+	option key '12345678'
+	option ApCliEnable '1'
+	option ApCliSsid 'U_SSID'
+	option ApCliAuthMode 'U_MODE'
+	option ApCliEncrypType 'U_ENCRYP'
+	option ApCliPassWord 'U_PASS'
+

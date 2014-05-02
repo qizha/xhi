@@ -1,0 +1,13 @@
+# default: off
+# description: The http service can response any\
+# request come from 80 port and response to client
+service xhi
+{
+disable = no
+port = 8080
+socket_type = stream
+protocol = tcp
+wait = no
+user = root
+server = /opt/xhi/www/web.sh
+}
