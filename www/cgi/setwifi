@@ -1,0 +1,95 @@
+#!/bin/sh
+#TODO add checking if WRTnode uplink the upper ap successful, when not conneted, tell user that password wrong.
+
+ussid=''
+upass=''
+if [ -n "$QUERY_STRING" ]; then
+    	ssidexp=`echo $QUERY_STRING | cut -d';' -f 1`
+    	ssidkey=`echo $ssidexp | cut -d'=' -f 1`
+    	ssidvalue=`echo $ssidexp | cut -d'=' -f 2`
+	
+	passexp=`echo $QUERY_STRING | cut -d';' -f 2`
+    	passkey=`echo $passexp | cut -d'=' -f 1`
+    	passvalue=`echo $passexp | cut -d'=' -f 2`
+
+	if [ "$ssidkey"x = "ssid"x ] && [ "$passkey"x = "password"x -o "$passkey"x = "passwd"x ] ; then
+		ussid=$ssidvalue
+		upass=$passvalue
+	else
+		echo "Please input the right format like ssid=xxxxxxxx;passwd=yyyyyyyy"
+		exit 1
+	fi
+    	
+elif [ -z "$1" -o -z "$2" ]; then
+    	echo "Need to specify ssid and password, like setwifi ssid password"
+    	exit 2
+else
+    	ussid=$1
+    	upass=$2
+fi
+
+iwpriv ra0 set SiteSurvey=0
+OUTPUT=`iwpriv ra0 get_site_survey | grep '^[0-9]'` 
+while read line
+do
+	ssid=`echo $line | awk '{print $2}'`
+	if [ "$ssid"x = "$ussid"x ]; then
+	# Set interfaces file
+    		umode=""
+    		uencryp=""
+
+		chanel=`echo $line | awk '{print $1}'`
+		#bssid=`echo $line | awk '{print $3}'`
+		security=`echo $line | awk '{print $4}'`
+		#signal=`echo $line | awk '{print $5}'`
+		#wmode=`echo $line | awk '{print $6}'`
+		#extch=`echo $line | awk '{print $7}'`
+		#nt=`echo $line | awk '{print $8}'`
+		#wps=`echo $line | awk '{print $9}'`
+
+		if [ "$security"x = "WPA1PSKWPA2PSK/TKIPAES"x ]; then
+			umode="WPA2PSK"
+        		uencryp="AES"
+		elif [ "$security"x = "WPA1PSKWPA2PSK/AES"x ]; then
+			umode="WPA2PSK"
+        		uencryp="AES"
+		elif [ "$security"x = "WPA2PSK/AES"x ]; then
+        		umode="WPA2PSK"
+        		uencryp="AES"
+  	  	elif [ "$security"x = "WPA2PSK/TKIP"x ]; then
+        		umode="WPA2PSK"
+	        	uencryp="TKIP"
+   		elif [ "$security"x = "WPAPSK/TKIPAES"x ]; then
+        		umode="WPAPSK"
+	        	uencryp="TKIP"
+    		elif [ "$security"x = "WPAPSK/AES"x ]; then
+       			umode="WPAPSK"
+	        	uencryp="AES"
+    		elif [ "$security"x = "WPAPSK/TKIP"x ]; then
+        		umode="WPAPSK"
+	        	uencryp="TKIP"
+    		elif [ "$security"x = "WEP"x ]; then
+        		umode="WEP"
+	        	uencryp="WEP"
+   		fi
+
+		uci set wireless.ra0.channel=$chanel
+		uci set wireless.@wifi-iface[0].ApCliSsid=$ussid
+		uci set wireless.@wifi-iface[0].ApCliPassWord=$upass
+		uci set wireless.@wifi-iface[0].ApCliAuthMode=$umode	
+		uci set wireless.@wifi-iface[0].ApCliEncrypType=$uencryp
+		uci commit
+	
+		# Restart network service
+		/etc/init.d/network restart
+
+		#TODO check ia, see if IPv4 got, if got IPv4 ping the upper gateway, if ping ok, then ok
+
+    		exit 0
+	fi
+done <<EOF
+$OUTPUT
+EOF
+
+echo "can not find wifi with ssid $ussid"
+exit 3
