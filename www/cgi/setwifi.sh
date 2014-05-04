@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [ $TEMPLATE_DIR ]; then
+    template_dir = $TEMPLATE_DIR
+else
+    template_dir=`pwd`"/../templates"
+fi
+
 ussid=''
 upass=''
 if [ -n "$QUERY_STRING" ]; then
@@ -20,7 +26,6 @@ else
     upass=$2
 fi
 
-isFound="false"
 iwpriv ra0 set SiteSurvey=0
 OUTPUT=`iwpriv ra0 get_site_survey | grep '^[0-9]'`
 while read line
@@ -40,9 +45,33 @@ if [ "$ssid"x = "$ussid"x ]; then
 	echo $chanel
 	echo $security
 	# Set interfaces file
-	if [ -n `echo $security | grep WPA` ]; then
-		sed 's/U_MODE/WPA2PSK/g' wpa_template | sed 's/U_PASS/'"$upass"'/g' | sed 's/U_CHANEL/'"$chanel"'/g' | sed 's/U_ENCRYP/AES/g' > /tmp/wireless
-	fi
+    umode=""
+    uencryp=""
+
+	if [ "$security"x = "WPA1PSKWPA2PSK/TKIPAES"x ]; then
+		umode="WPA2PSK"
+        uencryp="AES"
+	elif [ "$security"x = "WPA2PSK/AES"x ]; then
+        umode="WPA2PSK"
+        uencryp="AES"
+    elif [ "$security"x = "WPA2PSK/TKIP"x ]; then
+        umode="WPA2PSK"
+        uencryp="TKIP"
+    elif [ "$security"x = "WPAPSK/TKIPAES"x ]; then
+        umode="WPAPSK"
+        uencryp="TKIP"
+    elif [ "$security"x = "WPAPSK/AES"x ]; then
+        umode="WPAPSK"
+        uencryp="AES"
+    elif [ "$security"x = "WPAPSK/TKIP"x ]; then
+        umode="WPAPSK"
+        uencryp="TKIP"
+    elif [ "$security"x = "WEP"x ]; then
+        umode="WEP"
+        uencryp="WEP"
+    fi
+
+    sed 's/U_MODE/'"$umode"'/g' "$template_dir""/wireless.template" | sed 's/U_SSID/'"$ussid"'/g' |sed 's/U_PASS/'"$upass"'/g' | sed 's/U_CHANEL/'"$chanel"'/g' | sed 's/U_ENCRYP/'"$uencryp"'/g' > /tmp/wireless
 	# Restart network service
 	/etc/init.d/network restart
     exit 0
