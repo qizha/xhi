@@ -1,10 +1,12 @@
-#!/bin/bash
+#!/bin/sh
 
 if [ $TEMPLATE_DIR ]; then
     template_dir = $TEMPLATE_DIR
 else
     template_dir=`pwd`"/../templates"
 fi
+
+wireless_conf="/etc/network/wireless"
 
 ussid=''
 upass=''
@@ -28,6 +30,7 @@ fi
 
 iwpriv ra0 set SiteSurvey=0
 OUTPUT=`iwpriv ra0 get_site_survey | grep '^[0-9]'`
+#OUTPUT=`cat ../../test/aps.txt | grep '^[0-9]'`
 while read line
 do
 ssid=`echo $line | awk '{print $2}'`
@@ -71,7 +74,7 @@ if [ "$ssid"x = "$ussid"x ]; then
         uencryp="WEP"
     fi
 
-    sed 's/U_MODE/'"$umode"'/g' "$template_dir""/wireless.template" | sed 's/U_SSID/'"$ussid"'/g' |sed 's/U_PASS/'"$upass"'/g' | sed 's/U_CHANEL/'"$chanel"'/g' | sed 's/U_ENCRYP/'"$uencryp"'/g' > /tmp/wireless
+    sed 's/U_MODE/'"$umode"'/g' "$template_dir""/wireless.template" | sed 's/U_SSID/'"$ussid"'/g' |sed 's/U_PASS/'"$upass"'/g' | sed 's/U_CHANEL/'"$chanel"'/g' | sed 's/U_ENCRYP/'"$uencryp"'/g' > "$wireless_conf"
 	# Restart network service
 	/etc/init.d/network restart
     exit 0
