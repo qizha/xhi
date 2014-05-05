@@ -9,5 +9,5 @@ socket_type = stream
 protocol = tcp
 wait = no
 user = root
-server = /opt/xhi/www/web.sh
+server = /etc/xhi/www/web.sh
 }

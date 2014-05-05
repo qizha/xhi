@@ -1,20 +1,25 @@
-#!/bin/bash
-base=/opt/xhi/www
+#!/bin/sh
+base=/etc/xhi/www
 read request
 
-while /bin/true; do
+
+while true
+do
 read header
 [ "$header" == $'\r' ] && break;
 done
+
 
 url="${request#GET }"
 url="${url% HTTP/*}"
 query="${url#*\?}"
 url="${url%%\?*}"
 
+
 if [ $url == "/" ]; then
 url="/index.html"
 fi
+
 
 filename="$base$url"
 if [ -x "$filename" ]; then
@@ -35,7 +40,7 @@ echo -e "HTTP/1.1 404 Not Found\r"
 echo -e "Content-Type: text/html\r"
 echo -e "\r"
 echo -e "404 Not Found\r"
-echo -e "Not Found
-The requested resource was not found\r"
+echo -e "Not Found The requested resource wrtnode was not found by noel\r"
 echo -e "\r"
 fi
+
