@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="assets/ico/favicon.ico">
+
+    <title>XHI main page</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container"><a href="/" class="brand">XHI</a>
+
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="/hubs/msgsending">设置WIFI密码</a></li>
+            <li class="inactive"><a href="/hubs/msgqueryform">设置管理密码</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <form action="/hubs/register" method="post" onsubmit="check_input()" class="well">
+            <fieldset>
+              <legend>设置WIFI密码</legend>
+              <div class="control-group">
+                <label for="ssid" class="control-label">无线接入点</label>
+                <div class="controls">
+                  <input id="ssid" type="text" name="ssid" class="input-xlarge"/>
+                </div>
+              </div>
+              <div class="control-group">
+                <label for="password" class="control-label">无线密码</label>
+                <div class="controls">
+                  <input id="password" type="password" name="password" class="input-xlarge"/>
+                </div>
+              </div>
+
+              <div style="margin: 20px 0;">
+                <button type="submit" class="btn btn-primary">保存</button>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+      <hr>
+    </div>
+  </body>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/docs.min.js"></script>
+</html>
