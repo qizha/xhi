@@ -5,23 +5,28 @@ The full name is xinetd http interface, to provide a set of API base on HTTP pro
 
 Installation
 ---
-* Install xinetd if not. Perform the following in openwrt:
+1 Install xinetd if not. Perform the following in openwrt:
 
     `opkg install xinetd`
     
-* Add xhi service in /etc/services, for example:
+2 Add xhi service in /etc/services, for example:
 
     `xhi        8080/tcp`
 
-* Create xhi configuration file for xinetd, you can simplily copy file "xhi" in source code into /etc/xinetd.d/
-* Put xhi code to your disk. 
+2 Set the xinted startup with the Linux:
 
-The default location is "/opt/xhi". If you decide to use another location, please remember to update it in web.sh
+    `/etc/init.d/xinted enable`
 
-* Re-start xhi service
+4 Create xhi configuration file for xinetd, you can simplily copy file "xhi" in source code into /etc/xinetd.d/
+
+5 Put xhi code to your disk. 
+
+The default location is "/etc/xhi". If you decide to use another location, please remember to update it in web.sh
+
+6 Re-start xhi service
 
     `/etc/init.d/xinetd restart`
-* Enjoy it
+7 Enjoy it
 
 Reference
 ---
