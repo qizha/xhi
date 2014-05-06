@@ -40,7 +40,7 @@ echo -e "HTTP/1.1 404 Not Found\r"
 echo -e "Content-Type: text/html\r"
 echo -e "\r"
 echo -e "404 Not Found\r"
-echo -e "Not Found The requested resource wrtnode was not found by noel\r"
+echo -e "Not Found The requested resource was not found\r"
 echo -e "\r"
 fi
 
