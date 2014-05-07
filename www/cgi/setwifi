@@ -4,22 +4,25 @@
 ussid=''
 upass=''
 if [ -n "$QUERY_STRING" ]; then
-    	ssidexp=`echo $QUERY_STRING | cut -d';' -f 1`
-    	ssidkey=`echo $ssidexp | cut -d'=' -f 1`
-    	ssidvalue=`echo $ssidexp | cut -d'=' -f 2`
-	
-	passexp=`echo $QUERY_STRING | cut -d';' -f 2`
-    	passkey=`echo $passexp | cut -d'=' -f 1`
-    	passvalue=`echo $passexp | cut -d'=' -f 2`
+	firstexp=`echo $QUERY_STRING | cut -d'&' -f 1`
+	firstkey=`echo $firstexp | cut -d'=' -f 1`
+	firstvalue=`echo $firstexp | cut -d'=' -f 2`
 
-	if [ "$ssidkey"x = "ssid"x ] && [ "$passkey"x = "password"x -o "$passkey"x = "passwd"x ] ; then
-		ussid=$ssidvalue
-		upass=$passvalue
+	secondexp=`echo $QUERY_STRING | cut -d'&' -f 2`
+	secondkey=`echo $secondexp | cut -d'=' -f 1`
+	secondvalue=`echo $secondexp | cut -d'=' -f 2`
+
+	if [ "$firstkey"x = "ssid"x ] && [ "$secondkey"x = "password"x -o "$secondkey"x = "passwd"x ]; then
+		ussid=$firstvalue
+		upass=$secondvalue
+	elif [ "$secondkey"x = "ssid"x ] && [ "$firstkey"x = "password"x -o "$firstkey"x = "passwd"x ]; then
+		ussid=$secondvalue
+		upass=$firstvalue
 	else
-		echo "Please input the right format like ssid=xxxxxxxx;passwd=yyyyyyyy"
+		echo "{\"result\"=\"error\",\"message\"=\"Please input the right format like ssid=xxxx&passwd=yyyy\"}"
 		exit 1
 	fi
-    	
+   	
 elif [ -z "$1" -o -z "$2" ]; then
     	echo "Need to specify ssid and password, like setwifi ssid password"
     	exit 2
@@ -35,8 +38,8 @@ do
 	ssid=`echo $line | awk '{print $2}'`
 	if [ "$ssid"x = "$ussid"x ]; then
 	# Set interfaces file
-    		umode=""
-    		uencryp=""
+		umode=""
+		uencryp=""
 
 		chanel=`echo $line | awk '{print $1}'`
 		#bssid=`echo $line | awk '{print $3}'`
@@ -79,17 +82,29 @@ do
 		uci set wireless.@wifi-iface[0].ApCliAuthMode=$umode	
 		uci set wireless.@wifi-iface[0].ApCliEncrypType=$uencryp
 		uci commit
-	
+
 		# Restart network service
-		/etc/init.d/network restart
+		/etc/init.d/network restart 1>&- 2>&-
 
-		#TODO check ia, see if IPv4 got, if got IPv4 ping the upper gateway, if ping ok, then ok
+		apcli=`ifconfig | grep apcli0`
+		while [[ -z "$apcli" ]]
+		do
+			apcli=`ifconfig | grep apcli0`
+		done
 
-    		exit 0
+		sleep 20
+		ip=`ifconfig apcli0 | grep 'inet addr:'| cut -d: -f2 | awk '{ print $1}'`
+		if [ $ip ]; then
+			echo "{\"result\"=\"success\",\"message\"=\"connected to $ussid with IP $ip\"}"
+		else
+			echo "{\"result\"=\"error\",\"message\"=\"can not connect to $ussid\"}"
+		fi
+
+    	exit 0
 	fi
 done <<EOF
 $OUTPUT
 EOF
 
-echo "can not find wifi with ssid $ussid"
+echo "{\"result\"=\"error\",\"message\"=\"can not find WIFI with ssid $ussid\"}"
 exit 3
