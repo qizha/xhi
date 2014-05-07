@@ -13,20 +13,16 @@ Installation
 
     `xhi        8080/tcp`
 
-2 Set the xinted startup with the Linux:
+3 Create xhi configuration file for xinetd, you can simplily copy file "xhi" in source code into /etc/xinetd.d/
 
-    `/etc/init.d/xinted enable`
-
-4 Create xhi configuration file for xinetd, you can simplily copy file "xhi" in source code into /etc/xinetd.d/
-
-5 Put xhi code to your disk. 
+4 Put xhi code to your disk. 
 
 The default location is "/etc/xhi". If you decide to use another location, please remember to update it in web.sh
 
-6 Re-start xhi service
+5 Re-start xhi service
 
     `/etc/init.d/xinetd restart`
-7 Enjoy it
+6 Enjoy it
 
 Reference
 ---
