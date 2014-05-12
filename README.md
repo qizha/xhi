@@ -7,6 +7,7 @@ Installation
 ---
 1 Install xinetd if not. Perform the following in openwrt:
 
+    `opkg update`
     `opkg install xinetd`
     
 2 Add xhi service in /etc/services, for example:
