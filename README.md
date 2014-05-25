@@ -34,6 +34,7 @@ the interfaces:
     `http://192.168.8.1/cgi-bin/api_name`
 
 Admin UI Installation for uhttpd
+---
 1 Refer to section "REST API Installation for uhttpd" to setup REST APIs
 
 2 Copy the file www/static/index.html to /www/ in your wrtnode
