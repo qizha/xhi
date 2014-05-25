@@ -25,13 +25,24 @@ The default location is "/etc/xhi". If you decide to use another location, pleas
     `/etc/init.d/xinetd restart`
 6 Enjoy it
 
-Installation for uhttpd
+REST API Installation for uhttpd
 ---
 The shell script can be used for uhttpd directly instead of setup xinetd service. For this approach, you can simply
 copy files under cgi-bin folder to /www/cgi-bin folder in your openwrt. Then access the following address to call 
 the interfaces:
 
     `http://192.168.8.1/cgi-bin/api_name`
+
+Admin UI Installation for uhttpd
+1 Refer to section "REST API Installation for uhttpd" to setup REST APIs
+
+2 Copy the file www/static/index.html to /www/ in your wrtnode
+
+3 Copy the folder www/static as /www/webui-xhi in your wrtnode
+
+4 Clear your the cache of your browser
+
+5 Then you can open XHI configuration interface by http://192.168.8.1
 
 Reference
 ---
