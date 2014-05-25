@@ -30,7 +30,7 @@ Installation for uhttpd
 The shell script can be used for uhttpd directly instead of setup xinetd service. For this approach, you can simply
 copy files under cgi-bin folder to /www/cgi-bin folder in your openwrt. Then access the following address to call 
 the interfaces:
-    http://192.168.8.1/cgi-bin/api_name
+    `http://192.168.8.1/cgi-bin/api_name`
 
 Reference
 ---
