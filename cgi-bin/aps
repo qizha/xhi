@@ -1,5 +1,8 @@
 #!/bin/sh
 i=0
+#echo "HTTP/1.1 200 OK"
+echo "Content-Type: application/json"
+echo ""
 echo "{"
 iwpriv ra0 set SiteSurvey=0
 iwpriv ra0 get_site_survey | grep '^[0-9]' | while read line

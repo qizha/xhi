@@ -15,21 +15,22 @@ url="${url% HTTP/*}"
 query="${url#*\?}"
 url="${url%%\?*}"
 
+folder=`echo $url | cut -d'/' -f 2`
 
 if [ $url == "/" ]; then
-url="/index.html"
+url="/static/index.html"
+folder="static"
 fi
 
-
 filename="$base$url"
-if [ -x "$filename" ]; then
+if [ "$folder"x = "cgi"x ]; then
 echo -e "HTTP/1.1 200 OK\r"
 echo -e "Content-Type: application/json\r"
 echo -e "\r"
 export QUERY_STRING=$query
 "$filename"
 echo -e "\r"
-elif [ -f "$filename" ]; then
+elif [ "$folder"x = "static"x ]; then
 echo -e "HTTP/1.1 200 OK\r"
 echo -e "Content-Type: `/usr/bin/file -bi \"$filename\"`\r"
 echo -e "\r"

@@ -11,10 +11,10 @@
     <title>XHI main page</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap-select.min.css">
+    <link type="text/css" href="static/css/style.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -28,7 +28,7 @@
   <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
-        <div class="container"><a href="/" class="brand">XHI</a>
+        <div class="container"><a href="/" class="brand">WRTNode Control Panel</a>
 
         </div>
       </div>
@@ -45,17 +45,13 @@
           <form action="/hubs/register" method="post" onsubmit="check_input()" class="well">
             <fieldset>
               <legend>设置WIFI密码</legend>
-              <div class="control-group">
-                <label for="ssid" class="control-label">无线接入点</label>
-                <div class="controls">
-                  <input id="ssid" type="text" name="ssid" class="input-xlarge"/>
-                </div>
+              <div class="form-group">
+                <label for="ssid">无线接入点</label>
+                <select id="password" name="password" class="selectpicker form-control" data-live-search="true"/>
               </div>
-              <div class="control-group">
-                <label for="password" class="control-label">无线密码</label>
-                <div class="controls">
-                  <input id="password" type="password" name="password" class="input-xlarge"/>
-                </div>
+              <div class="form-group">
+                <label for="password">无线密码</label>
+                <input id="password" type="password" name="password" class="form-control"/>
               </div>
 
               <div style="margin: 20px 0;">
@@ -68,7 +64,27 @@
       <hr>
     </div>
   </body>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/jquery.min.js"></script>
-  <script src="js/docs.min.js"></script>
+  <script type="text/javascript" src="static/js/jquery.min.js"></script>
+  <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="static/js/docs.min.js"></script>
+  <script type="text/javascript" src="static/js/bootstrap-select.min.js"></script>
+  <script type="text/javascript">
+      $(window).on('load', function () {
+        $.ajax({
+          type: "GET", 
+          url: "getwifi",
+          dataType: "json",
+          contentType: "application/json; charset=utf-8",
+          success: function(json) {
+            alert(json.Value) 
+          },
+          error: function(error) {
+            alert("调用出错" + error.responseText);
+          }
+        });
+          // $('.selectpicker').append("<option value='1'>a</option>")
+          // $('.selectpicker').append("<option value='2'>b</option>")
+          // $('.selectpicker').selectpicker();
+      });
+  </script>
 </html>
