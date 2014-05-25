@@ -90,9 +90,9 @@ do
 		sleep 20
 		ip=`ifconfig apcli0 | grep 'inet addr:'| cut -d: -f2 | awk '{ print $1}'`
 		if [ $ip ]; then
-			echo "{\"result\"=\"success\",\"message\"=\"connected to $ussid with IP $ip\"}"
+			echo "{\"result\":\"success\",\"message\":\"connected to $ussid with IP $ip\"}"
 		else
-			echo "{\"result\"=\"error\",\"message\"=\"can not connect to $ussid\"}"
+			echo "{\"result\":\"error\",\"message\":\"can not connect to $ussid\"}"
 		fi
 
         exit 0
@@ -101,5 +101,5 @@ done <<EOF
 $OUTPUT
 EOF
 
-echo "{\"result\"=\"error\",\"message\"=\"can not find WIFI with ssid $ussid\"}"
+echo "{\"result\":\"error\",\"message\":\"can not find WIFI with ssid $ussid\"}"
 exit 3
