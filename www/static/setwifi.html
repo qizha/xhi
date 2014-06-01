@@ -33,7 +33,7 @@
           contentType: "application/json; charset=utf-8",
           success: function(json) {
               if (json.result == "error") {
-                $('#alertMsg').innerHTML="<div class='alert alert-danger'>" + json.message + "</div>"
+                document.getElementById('alertMsg').innerHTML="<div class='alert alert-danger'>" + json.message + "</div>"
               }
           },
           error: function(error) {
