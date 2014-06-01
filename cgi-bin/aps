@@ -1,7 +1,7 @@
 #!/bin/sh
 i=0
 #echo "HTTP/1.1 200 OK"
-echo "Content-Type: application/json"
+echo "Content-Type: application/json; charset=utf-8"
 echo ""
 echo "{"
 iwpriv ra0 set SiteSurvey=0
@@ -34,7 +34,13 @@ do
 	fi
 
 	let i+=1
-	echo "\"$ssid\":{"
+	
+	if [ ${ssid:0:2} = "0x" ]; then
+		echo -e "\"`echo ${ssid:2} | sed 's/\(..\)/\\\\x\1/g'`\":{"
+	else
+		echo "\"$ssid\":{"
+	fi
+	
 	echo "\"chanel\":"$chanel","
 	#echo "\"ssid\":\""$ssid"\","
 	echo "\"bssid\":\""$bssid"\","
